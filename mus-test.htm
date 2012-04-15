@@ -74,7 +74,22 @@
         <table id="splitter">
             <tr>
                 <td>
-                    <textarea id="txtCode"></textarea>
+                    <textarea id="txtCode">{
+    tag: 'repeat',
+    section: {
+        tag: 'seq',
+        left: {
+            tag: 'rest',
+            dur: 500
+        },
+        right: {
+            tag: 'chord',
+            dur: 600,
+            pitches: ['c1', 'e1', 43]
+        }
+    },
+    count: 3
+}</textarea>
                 </td>
                 <td>
                     <p id="txtResult">
