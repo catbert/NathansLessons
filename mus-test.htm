@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MUS interpreter testing</title>
+        <style>
+            #splitter {
+                margin-left: auto;
+                margin-right: auto;
+                width: 90%;
+            }
+            
+            #splitter td {
+                width: 50%; 
+                vertical-align: top;               
+            }
+
+            #txtCode {
+                width: 80%;
+                height: 20em;
+            }
+
+            #txtDebug {
+                width: 90%;
+                color: #808080;
+            }
+        </style>
+        
+        <script>
+            var dclear = function () {
+                document.getElementById('txtDebug').innerText = '';
+                document.getElementById('txtResult').innerText = '';
+            };
+
+            var debug = function (x) {
+                document.getElementById('txtDebug').innerText += x;
+                document.getElementById('txtDebug').innerText += '\n';
+            };
+
+            var dasmCommand = function(cmd) {
+                switch (cmd.tag)
+                {
+                    case 'note':
+                        return "NOTE " + cmd.pitch + " at " + cmd.start + " for " + cmd.dur;
+                    case 'rest':
+                        return "REST at " + cmd.start + " for " + cmd.dur;
+                }
+            };
+
+            var dasm = function (nexpr) {
+                var text = '';
+                for (var i = 0; i < nexpr.length; i++) {
+                    text += dasmCommand(nexpr[i]) + '\n';
+                };
+
+                return text;
+            };
+
+            window.addEventListener('load', function () {
+                document.getElementById('txtCode').onkeyup = function () {
+                    dclear();
+                    var program = eval( '(' + document.getElementById('txtCode').value + ')');
+
+                    var result = compile(program);
+                    var dis = dasm(result);
+
+                    document.getElementById('txtResult').innerText = dis;
+                };
+            }, false);
+        </script>
+        <script src="mus.js"></script>
+    </head>
+    <body>
+        <h1>MUS Interpreter Testing</h1>
+        <table id="splitter">
+            <tr>
+                <td>
+                    <textarea id="txtCode"></textarea>
+                </td>
+                <td>
+                    <p id="txtResult">
+                        hello
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <div id="txtDebug"></div>
+    </body>
+</html>
