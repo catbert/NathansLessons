@@ -1,0 +1,34 @@
+start =
+    expression
+
+expression =
+    list
+  / atom
+  / quote
+
+list =
+	lparen es:expression+ rparen
+    	{ return es; }
+
+atom =
+        cs:chars s
+    	{ return cs.join(""); }
+
+quote = 
+        '\'' ex:expression
+        { return ["quote", ex]; }
+    
+chars =
+	[^() ;'\t\n]+
+
+lparen = 
+	'(' s
+
+rparen = 
+	')' s
+
+s = 
+        ([ \t\n] / comment)*
+
+comment =
+        ';;' [^\n]* '\n'
